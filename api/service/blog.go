@@ -23,17 +23,22 @@ func NewBlogService(
 }
 
 func (s *blogService) GetBlogs() (*dto.GetBlogsRes, error) {
+	blogs, err := s.blogsRepo.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	blogOverviews := []*dto.BlogOverview{}
+	for _, blog := range blogs {
+		blogOverviews = append(blogOverviews, &dto.BlogOverview{
+			Id:        blog.Id,
+			Title:     blog.Title,
+			Tag:       blog.Tag,
+			UpdatedAt: blog.UpdatedAt,
+		})
+
+	}
 	return &dto.GetBlogsRes{
-		Blogs: []*dto.BlogOverview{
-			{
-				Id:    "1",
-				Title: "testTitle1",
-			},
-			{
-				Id:    "2",
-				Title: "testTitle2",
-			},
-		},
+		BlogOverviews: blogOverviews,
 	}, nil
 }
 
@@ -42,7 +47,7 @@ func (s *blogService) GetBlog(req *dto.GetBlogReq) (*dto.GetBlogRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	// TODO
+	// TODO: occure bad request
 	if blog == nil {
 		return nil, nil
 	}

@@ -1,7 +1,7 @@
 package dto
 
 type GetBlogsRes struct {
-	Blogs []*BlogOverview `json:"blogs"`
+	BlogOverviews []*BlogOverview `json:"blogs"`
 }
 
 type GetBlogReq struct {
