@@ -28,19 +28,22 @@ func NewBlogHandler(
 func (h *blogHandler) GetBlogs(c *gin.Context) {
 	res, err := h.blogService.GetBlogs()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, err)
+		return
 	}
 	c.JSON(http.StatusOK, res)
 }
 
 func (h *blogHandler) GetBlog(c *gin.Context) {
 	req := &dto.GetBlogReq{}
-	if err := c.ShouldBindUri(req); err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	if err := c.ShouldBindUri(&req); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, err)
+		return
 	}
 	res, err := h.blogService.GetBlog(req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, err)
+		return
 	}
 	c.JSON(http.StatusOK, res)
 }

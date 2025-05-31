@@ -2,8 +2,12 @@ package main
 
 import (
 	"api/router"
+	"api/utility"
+	"fmt"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // var ginLambda *ginadapter.GinLambda
@@ -21,6 +25,11 @@ import (
 func main() {
 	// lambda.Start(Handler)
 
+	if err := godotenv.Load(
+		fmt.Sprintf(".env.%s", os.Getenv(utility.EnvKeyApiEnv)),
+	); err != nil {
+		panic(err)
+	}
 	if err := router.SetupRouter(
 		gin.Default(),
 	).Run(":8080"); err != nil {

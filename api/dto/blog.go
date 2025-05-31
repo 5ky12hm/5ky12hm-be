@@ -5,12 +5,13 @@ type GetBlogsRes struct {
 }
 
 type GetBlogReq struct {
-	BlogId string `url:"blogId"`
+	BlogId string `uri:"blogId"`
 }
 
 type GetBlogRes struct {
 	BlogOverview
-	Body string `json:"body"`
+	Body      string `json:"body"`
+	CreatedAt string `json:"createdAt"`
 }
 
 type BlogOverview struct {
